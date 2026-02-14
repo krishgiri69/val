@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Melu ❤️</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{
+    --pink-bg:#ffe5ec;
+    --heart:#ff4d6d;
+    --soft-pink:#ffb3c1;
+    --dark:#333;
+}
+
+body{
+    margin:0;
+    font-family:'Fredoka',sans-serif;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    overflow:hidden;
+    background:var(--pink-bg);
+    background-image: radial-gradient(#ff85a1 1px, transparent 1px);
+    background-size:40px 40px;
+    position:relative;
+}
+
+/* FALLING EMOJIS FULL PAGE */
+#emoji-bg{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    pointer-events:none;
+    z-index:0;
+}
+
+/* Valentine themed container */
+.container{
+    position:relative;
+    z-index:1;
+    background: linear-gradient(145deg, #fff0f6, #ffe5ec);
+    width:92%;
+    max-width:650px;
+    min-height:550px;
+    border-radius:30px;
+    border:5px solid #000;
+    box-shadow:12px 12px 0 var(--soft-pink);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    padding:20px;
+    overflow:hidden;
+}
+
+.screen{display:none; width:100%; height:100%; flex-direction:column; align-items:center; justify-content:center; text-align:center; z-index:1; position:relative;}
+.active{display:flex; animation:fade .5s ease;}
+@keyframes fade{from{opacity:0} to{opacity:1}}
+
+.speech{
+    border:3px solid #000;
+    padding:18px 22px;
+    border-radius:20px;
+    box-shadow:4px 4px 0 #000;
+    font-size:1.5rem;
+    font-weight:600;
+    background:white;
+    min-height:60px;
+}
+
+.flork{
+    width:170px;
+    margin:15px 0;
+    transition:.3s;
+}
+
+.btn-row{display:flex; gap:20px; margin-top:15px;}
+.btn{
+    background:white;
+    border:3px solid #000;
+    padding:12px 30px;
+    border-radius:15px;
+    font-weight:bold;
+    cursor:pointer;
+    box-shadow:4px 4px 0 #000;
+    transition:.1s;
+}
+.btn:hover{background:var(--soft-pink);}
+.btn:active{transform:translate(2px,2px); box-shadow:2px 2px 0 #000;}
+
+#noBtn{position:absolute;}
+
+.long-text{
+    font-family:'Dancing Script';
+    font-size:1.4rem;
+    margin-top:15px;
+    padding:15px;
+    line-height:1.6;
+    text-align:center;
+}
+
+.emoji{
+    position:absolute;
+    pointer-events:none;
+    z-index:0;
+    animation-name:fall;
+    animation-timing-function: linear;
+}
+
+@keyframes fall{
+    0%{transform:translateY(-50px);}
+    100%{transform:translateY(110vh);}
+}
+
+/* MENU STYLES */
+.menu{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+    margin-top:20px;
+}
+
+.icon-box{
+    border:3px solid #000;
+    padding:20px;
+    border-radius:20px;
+    text-align:center;
+    background:white;
+    box-shadow:4px 4px 0 #000;
+    cursor:pointer;
+    font-size:1.5rem;
+    transition:.2s;
+}
+.icon-box:hover{background:var(--soft-pink);}
+
+.section-container{
+    border:3px solid #000;
+    padding:15px;
+    border-radius:20px;
+    box-shadow:4px 4px 0 #000;
+    background:white;
+    margin-top:15px;
+    width:100%;
+}
+
+.back-btn{
+    margin-top:15px;
+    padding:10px 25px;
+    font-weight:bold;
+    border:3px solid #000;
+    border-radius:15px;
+    cursor:pointer;
+    background:white;
+    box-shadow:4px 4px 0 #000;
+}
+.back-btn:hover{background:var(--soft-pink);}
+
+/* Photos container */
+.photo-container{
+    position:relative;
+    width:100%;
+    max-width:500px;
+    margin:10px 0;
+}
+.photo-container img{
+    width:100%;
+    height:auto;          /* Auto height to prevent cropping */
+    object-fit:contain;   /* Keep full photo visible */
+    border:2px solid #000;
+    border-radius:15px;
+    background:#fff;      /* optional, fills empty space */
+}
+.photo-container .next-btn{
+    position:absolute;
+    bottom:10px;
+    right:10px;
+    padding:8px 20px;
+    font-weight:bold;
+    border:3px solid #000;
+    border-radius:15px;
+    background:white;
+    box-shadow:4px 4px 0 #000;
+    cursor:pointer;
+}
+.photo-container .next-btn:hover{background:var(--soft-pink);}
+</style>
+</head>
+<body>
+
+<!-- EMOJIS BACKGROUND -->
+<div id="emoji-bg"></div>
+
+<div class="container">
+
+  <!-- FIRST PAGE -->
+  <div class="screen active" id="ask">
+      <div class="speech">
+          Melina… will you be my Valentine? 💖🌹✨
+      </div>
+      <img id="mainFlork" src="https://media.tenor.com/79h8Y2kF-40AAAAi/flork-love.gif" class="flork">
+      <div class="btn-row">
+          <button class="btn" onclick="yesClicked()">YES 💘</button>
+          <button class="btn" id="noBtn" onmouseover="moveNo()">NO 😢</button>
+      </div>
+      <div id="reactionText" class="long-text"></div>
+  </div>
+
+  <!-- SONG PAGE -->
+  <div class="screen" id="songPage">
+      <div class="speech">Click below sana to play our song 💖</div>
+      <button class="btn" onclick="playSong()">🎵 Thicha ta maya</button>
+  </div>
+
+  <!-- MENU PAGE -->
+  <div class="screen" id="menu">
+      <div class="menu">
+          <div class="icon-box" onclick="showSection('memories')">📸<br>Thorai Memories</div>
+          <div class="icon-box" onclick="showSection('letter')">💌<br>Sano Letter</div>
+          <div class="icon-box" onclick="showSection('flower')">🌹<br>Flowers</div>
+      </div>
+  </div>
+
+  <!-- MEMORIES SECTION -->
+  <div class="screen" id="memories">
+      <div class="section-container">
+          <h3>Our Memories 📸</h3>
+          <div class="photo-container">
+              <img id="memoryPhoto" src="photo1.jpg">
+              <button class="next-btn" onclick="nextMemory()">Next</button>
+          </div>
+          <button class="back-btn" onclick="backToMenu()">Back</button>
+      </div>
+  </div>
+
+  <!-- LOVE LETTER SECTION -->
+  <div class="screen" id="letter">
+      <div class="section-container">
+          <div id="loveLetterText" class="long-text"></div>
+          <button class="back-btn" onclick="backToMenu()">Back</button>
+      </div>
+  </div>
+
+  <!-- FLOWER SECTION -->
+  <div class="screen" id="flower">
+      <div class="section-container">
+          <h3>🌹 Real Bouquet sakdina 😭 I hope this will make you happy💗</h3>
+          <div class="photo-container">
+              <img src="flower.jpg" alt="Flower Photo">
+          </div>
+          <button class="back-btn" onclick="backToMenu()">Back</button>
+      </div>
+  </div>
+
+  <audio id="valentineSong" src="your-song.mp3"></audio>
+
+</div>
+
+<script>
+// --- NO BUTTON HOVER ---
+function moveNo(){
+    const btn=document.getElementById("noBtn");
+    const container=document.querySelector(".container");
+    const maxX = container.offsetWidth - btn.offsetWidth - 10;
+    const maxY = container.offsetHeight - btn.offsetHeight - 10;
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+    btn.style.left = x + "px";
+    btn.style.top = y + "px";
+
+    document.getElementById("mainFlork").src="https://media.tenor.com/7YQC7xzYqQ4AAAAi/flork-sad.gif";
+    document.getElementById("reactionText").innerHTML=
+        "Oh nooo 🥺💔 That button looks suspicious… are you sure? 😢 My little heart can't handle that answer 😭💗";
+}
+
+// --- YES CLICK ---
+function yesClicked(){
+    document.getElementById("mainFlork").src="https://media.tenor.com/kS9m5r5_q9AAAAAi/flork-joy.gif";
+    showPage('songPage');
+}
+
+// --- SONG PLAY ---
+function playSong(){
+    document.getElementById('valentineSong').play();
+    createFallingEmojis(); // emojis start falling from top of page
+    showPage('menu');
+}
+
+// --- MENU AND SECTIONS ---
+function showSection(id){
+    showPage(id);
+    if(id=='letter'){
+        typeWriter(document.getElementById("loveLetterText"),
+            "To my dearest Melina 💌\n\n" +
+            "You are my sunshine, my heart, and my everything. Every moment with you feels magical . I promise to make every day special, to hold you close , and to love you endlessly .\n\n" +
+            "Remember our laughter, our adventures, and our quiet evenings together. You make my world brighter every single day. \n\n" +
+            "I cherish you more than words can say. Forever yours, always yours, my sweetest love. ",30);
+    }
+}
+function backToMenu(){showPage('menu');}
+function showPage(id){
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+
+// --- LOVE LETTER TYPEWRITER ---
+function typeWriter(element,text,speed=50){
+    element.innerHTML="";
+    let i=0;
+    function type(){
+        if(i<text.length){
+            element.innerHTML+=text.charAt(i);
+            i++;
+            setTimeout(type,speed);
+        }
+    }
+    type();
+}
+
+// --- MEMORY PHOTOS (4 photos) ---
+let memoryPhotos=['photo1.jpg','photo2.jpg','photo3.jpg','photo4.jpg'];
+let memoryIndex=0;
+function nextMemory(){
+    memoryIndex = (memoryIndex + 1) % memoryPhotos.length;
+    document.getElementById('memoryPhoto').src = memoryPhotos[memoryIndex];
+}
+
+// --- FALLING EMOJIS FROM TOP OF PAGE ---
+function createFallingEmojis(){
+    const container=document.getElementById('emoji-bg');
+    setInterval(()=>{
+        for(let i=0;i<7;i++){
+            let emoji=document.createElement("div");
+            emoji.className="emoji";
+            emoji.innerHTML=["💖","🌹","🌷","🌸","🌺","✨","💫","😍"][Math.floor(Math.random()*8)];
+            emoji.style.left=Math.random()*100+"%";
+            emoji.style.fontSize=(Math.random()*25+20)+"px";
+            emoji.style.top="-50px"; // start at top of page
+            emoji.style.opacity=1;
+            emoji.style.position="absolute";
+            emoji.style.zIndex=0;
+            emoji.style.transition="transform 5s linear, opacity 5s linear";
+            container.appendChild(emoji);
+            setTimeout(()=>{
+                emoji.style.transform="translateY(110vh)"; 
+                emoji.style.opacity=0;
+            },50);
+            setTimeout(()=>emoji.remove(),5500);
+        }
+    },400);
+}
+</script>
+
+</body>
+</html>
